@@ -1,0 +1,127 @@
+import Foundation
+
+extension String {
+    var htmlDecoded: String {
+        let entities = [
+            "&quot;": "\"",
+            "&amp;": "&",
+            "&lt;": "<",
+            "&gt;": ">",
+            "&apos;": "'",
+            "&#39;": "'",
+            "&#039;": "'",
+            "&ldquo;": """
+            """,
+            "&rdquo;": """
+            """,
+            "&lsquo;": "'",
+            "&rsquo;": "'",
+            "&euml;": "ë",
+            "&auml;": "ä",
+            "&ouml;": "ö",
+            "&uuml;": "ü",
+            "&Auml;": "Ä",
+            "&Ouml;": "Ö",
+            "&Uuml;": "Ü",
+            "&Euml;": "Ë",
+            "&nbsp;": " ",
+            "&mdash;": "—",
+            "&ndash;": "–",
+            "&trade;": "™",
+            "&copy;": "©",
+            "&reg;": "®",
+            "&deg;": "°",
+            "&plusmn;": "±",
+            "&times;": "×",
+            "&divide;": "÷",
+            "&frac12;": "½",
+            "&frac14;": "¼",
+            "&frac34;": "¾",
+            "&sup1;": "¹",
+            "&sup2;": "²",
+            "&sup3;": "³",
+            "&micro;": "µ",
+            "&para;": "¶",
+            "&sect;": "§",
+            "&dagger;": "†",
+            "&Dagger;": "‡",
+            "&bull;": "•",
+            "&hellip;": "…",
+            "&prime;": "′",
+            "&Prime;": "″",
+            "&larr;": "←",
+            "&rarr;": "→",
+            "&uarr;": "↑",
+            "&darr;": "↓",
+            "&harr;": "↔",
+            "&crarr;": "↵",
+            "&lArr;": "⇐",
+            "&rArr;": "⇒",
+            "&uArr;": "⇑",
+            "&dArr;": "⇓",
+            "&hArr;": "⇔",
+            "&forall;": "∀",
+            "&part;": "∂",
+            "&exist;": "∃",
+            "&empty;": "∅",
+            "&nabla;": "∇",
+            "&isin;": "∈",
+            "&notin;": "∉",
+            "&ni;": "∋",
+            "&prod;": "∏",
+            "&sum;": "∑",
+            "&minus;": "−",
+            "&lowast;": "∗",
+            "&radic;": "√",
+            "&prop;": "∝",
+            "&infin;": "∞",
+            "&ang;": "∠",
+            "&and;": "∧",
+            "&or;": "∨",
+            "&cap;": "∩",
+            "&cup;": "∪",
+            "&int;": "∫",
+            "&there4;": "∴",
+            "&sim;": "∼",
+            "&cong;": "≅",
+            "&asymp;": "≈",
+            "&ne;": "≠",
+            "&equiv;": "≡",
+            "&le;": "≤",
+            "&ge;": "≥",
+            "&sub;": "⊂",
+            "&sup;": "⊃",
+            "&nsub;": "⊄",
+            "&sube;": "⊆",
+            "&supe;": "⊇",
+            "&oplus;": "⊕",
+            "&otimes;": "⊗",
+            "&perp;": "⊥",
+            "&sdot;": "⋅",
+            "&lceil;": "⌈",
+            "&rceil;": "⌉",
+            "&lfloor;": "⌊",
+            "&rfloor;": "⌋",
+            "&lang;": "⟨",
+            "&rang;": "⟩",
+            "&loz;": "◊",
+            "&spades;": "♠",
+            "&clubs;": "♣",
+            "&hearts;": "♥",
+            "&diams;": "♦"
+        ]
+        
+        var decodedString = self
+        
+        // Handle numeric HTML entities (like &#039;)
+        decodedString = decodedString.replacingOccurrences(of: "&#039;", with: "'")
+        decodedString = decodedString.replacingOccurrences(of: "&#39;", with: "'")
+        
+        // Handle other entities
+        for (entity, replacement) in entities {
+            decodedString = decodedString.replacingOccurrences(of: entity, with: replacement)
+        }
+        
+        return decodedString
+    }
+} 
