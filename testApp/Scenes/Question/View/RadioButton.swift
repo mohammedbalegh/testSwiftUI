@@ -23,7 +23,10 @@ struct RadioButton: View {
                 Spacer()
             }
             .padding(.vertical, 4)
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
+        .padding(.horizontal, 24)
     }
 }

@@ -6,6 +6,8 @@ struct GeneralView: View {
     @StateObject var gameState = GameState.shared
     @StateObject var viewModel: GeneralViewModel
     @State private var hasLoadedData = false
+    @State private var selectedQuestion: QuestionEntity?
+    @State private var showingQuestionDetail = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -16,7 +18,9 @@ struct GeneralView: View {
             ContentView(
                 viewModel: viewModel,
                 gameState: gameState,
-                hasLoadedData: $hasLoadedData
+                hasLoadedData: $hasLoadedData,
+                selectedQuestion: $selectedQuestion,
+                showingQuestionDetail: $showingQuestionDetail
             )
         }
         .onAppear {
@@ -25,6 +29,23 @@ struct GeneralView: View {
                 hasLoadedData = true
             }
         }
+        .overlay(
+            Group {
+                if let question = selectedQuestion, showingQuestionDetail {
+                    QuestionDetailView(
+                        question: question,
+                        isPresented: $showingQuestionDetail,
+                        gameState: gameState
+                    )
+                    .netflixTransition(isPresented: showingQuestionDetail) {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                            showingQuestionDetail = false
+                            selectedQuestion = nil
+                        }
+                    }
+                }
+            }
+        )
     }
 }
 
@@ -61,6 +82,8 @@ private struct ContentView: View {
     @ObservedObject var viewModel: GeneralViewModel
     @ObservedObject var gameState: GameState
     @Binding var hasLoadedData: Bool
+    @Binding var selectedQuestion: QuestionEntity?
+    @Binding var showingQuestionDetail: Bool
     
     var body: some View {
         ZStack {
@@ -71,7 +94,10 @@ private struct ContentView: View {
                             QuestionCardView(
                                 question: question,
                                 onTap: {
-                                    router.path.append(.question(viewModel.model[index]))
+                                    selectedQuestion = viewModel.model[index]
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                        showingQuestionDetail = true
+                                    }
                                 }
                             )
                             .onAppear {

@@ -43,6 +43,10 @@ struct QuestionsView: View {
             }
         }
         .navigationBarBackButtonHidden(showResult)
+        .onDisappear {
+            // Cancel any pending operations when view disappears
+            showResult = false
+        }
     }
     
     private func isCorrectAnswer() -> Bool {
@@ -59,11 +63,17 @@ struct QuestionsView: View {
         }
         
         withAnimation(.bouncy(duration: 0.6)) {
-            circleSize = 1000
+            circleSize = 1500
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            dismissQuestion()
+        // Use Task for better cancellation handling
+        Task {
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+            if !Task.isCancelled {
+                await MainActor.run {
+                    dismissQuestion()
+                }
+            }
         }
     }
     
@@ -130,6 +140,6 @@ private struct ResultOverlayView: View {
                     .foregroundColor(.white)
                     .opacity(circleSize > 500 ? 1 : 0)
             )
-            .animation(.easeInOut(duration: 0.3), value: circleSize > 500)
+            .animation(.bouncy(duration: 0.2), value: circleSize > 500)
     }
 } 
