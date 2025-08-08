@@ -30,7 +30,6 @@ class GeneralViewModel: ObservableObject {
 
     func getQuestions() {
         isLoading = true
-        currentAmount = 20 // Match the initial value
         hasMoreData = true
 
         generalUseCase
@@ -56,7 +55,6 @@ class GeneralViewModel: ObservableObject {
         isLoadingMore = true
         currentAmount += incrementAmount
         
-        // Add a small delay to avoid rate limiting
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self else { return }
             
@@ -71,11 +69,11 @@ class GeneralViewModel: ObservableObject {
                         if success.count <= self.model.count {
                             self.hasMoreData = false
                         } else {
-                            self.model = success // Replace with new larger dataset
+                            self.model = success
                         }
                     case .failure(let failure):
                         self.errorMessage = failure.errorDescription ?? failure.localizedDescription
-                        self.currentAmount -= self.incrementAmount // Revert on failure
+                        self.currentAmount -= self.incrementAmount
                     }
                 }
         }

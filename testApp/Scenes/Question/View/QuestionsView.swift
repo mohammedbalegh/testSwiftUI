@@ -52,19 +52,16 @@ struct QuestionsView: View {
     private func handleSubmit() {
         showResult = true
         
-        // Update counters
         if isCorrectAnswer() {
             gameState.incrementCorrect()
         } else {
             gameState.incrementWrong()
         }
         
-        // Animate circle
         withAnimation(.bouncy(duration: 0.6)) {
             circleSize = 1000
         }
         
-        // Dismiss after delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             dismissQuestion()
         }

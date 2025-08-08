@@ -5,8 +5,8 @@
 //  Created by mohammed balegh on 07/08/2025.
 //
 
-
 import Foundation
+
 struct QuestionBaseModel : Codable {
 	let response_code : Int?
     let results : [QuestionsModel]?
