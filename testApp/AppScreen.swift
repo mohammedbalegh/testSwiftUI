@@ -22,16 +22,7 @@ struct AppTabView: View {
                         }
                 }
             }
-            .navigationDestination(for: AppPages.self) { page in
-                switch page {
-                case .question(let model):
-                    QuestionsView(
-                        question: model, 
-                        selectedAnswer: "",
-                        gameState: GameState.shared
-                    )
-                }
-            }
+            .navigationDestination(for: AppPages.self) { _ in }
         }
     }
 }
