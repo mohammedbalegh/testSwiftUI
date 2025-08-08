@@ -19,7 +19,8 @@ struct RadioButton: View {
                     .font(.title2)
                     .foregroundColor(isSelected ? .accentColor : .secondary)
                 Text(label)
-                    .foregroundColor(.primary)
+                    .font(.title2)
+                    .foregroundColor(.white)
                 Spacer()
             }
             .padding(.vertical, 4)
